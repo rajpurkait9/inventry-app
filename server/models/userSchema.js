@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "already exists provide a valid email",
     ],
+    trim: true,
   },
   password: {
     type: String,
@@ -22,12 +23,12 @@ const userSchema = new mongoose.Schema({
     min: [8, "password must contain atleast 8 character"],
     max: [500, "password cannot be more than 500 character"],
   },
-  createAt :{
-    type : String
+  createAt: {
+    type: String,
   },
-  token : {
-    type : String
-  }
+  token: {
+    type: String,
+  },
 });
 
-module.exports = new mongoose.model('user',userSchema);
+module.exports = new mongoose.model("user", userSchema);
