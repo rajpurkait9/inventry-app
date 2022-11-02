@@ -1,5 +1,6 @@
 const User = require("../models/userSchema");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 // logic for register api
 const register = async (req, res) => {
   try {
@@ -17,13 +18,11 @@ const register = async (req, res) => {
       password: hashPassword,
       createAt: Date(Date.now()).toString(),
     });
-    res
-      .status(201)
-      .json({
-        name: newUser.name,
-        email: newUser.email,
-        createAt: newUser.createAt,
-      });
+    res.status(201).json({
+      name: newUser.name,
+      email: newUser.email,
+      createAt: newUser.createAt,
+    });
   } catch (error) {
     res.status(400).send({ msg: error.message });
   }
@@ -32,14 +31,22 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    // check if user exists
     const IsUser = await User.findOne({ email });
     if (!IsUser)
       return res
         .status(404)
         .send(`user is not register with email id ${email}`);
-    res.status(200).json("user exits with this email id");
+    // json web token genrate code
+    const token = await jwt.sign(
+      { userId: IsUser._id, email: IsUser.email, userName: IsUser.name },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
+    );
+    IsUser.updateOne({token},{new:true,runValidation : true}).then().catch(err=>console.log(err));
+    res.send({ msg: `login sucessfull..`, token });
   } catch (error) {
-    res.status(500).send("server problem..");
+    res.status(500).send({ msg: error.message });
   }
 };
 

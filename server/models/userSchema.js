@@ -24,6 +24,9 @@ const userSchema = new mongoose.Schema({
   },
   createAt :{
     type : String
+  },
+  token : {
+    type : String
   }
 });
 
