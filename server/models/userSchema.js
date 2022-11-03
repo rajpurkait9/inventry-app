@@ -29,6 +29,16 @@ const userSchema = new mongoose.Schema({
   token: {
     type: String,
   },
+  photo: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  bio: {
+    type: String,
+    maxlength: [500, "cannot be more than 500 cahracter"],
+  },
 });
 
 module.exports = new mongoose.model("user", userSchema);
