@@ -48,4 +48,20 @@ const deleteUser = (req, res) => {
     console.log(error.message);
   }
 };
-module.exports = { getAllUser, getUser, createUser, updateUser, deleteUser };
+const changePassword = (req, res) => {
+  try {
+    const { password, newPassword } = req.body;
+    console.log(password, newPassword);
+    res.send("sucessfull");
+  } catch (error) {
+    res.send(error.message);
+  }
+};
+module.exports = {
+  getAllUser,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  changePassword,
+};
