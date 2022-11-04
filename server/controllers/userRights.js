@@ -1,10 +1,10 @@
 const User = require("../models/userSchema");
+const bcrypt = require("bcrypt");
 
 const getAllUser = async (req, res) => {
   try {
     const { limit = 2, page = 1 } = req.query;
     const userAll = await User.find({})
-      .select("-password -token")
       .limit(+limit)
       .skip((+page - 1) * limit);
 
@@ -48,11 +48,24 @@ const deleteUser = (req, res) => {
     console.log(error.message);
   }
 };
-const changePassword = (req, res) => {
+// api for change user password
+const changePassword = async (req, res) => {
   try {
     const { password, newPassword } = req.body;
-    console.log(password, newPassword);
-    res.send("sucessfull");
+    const { userId } = req.query;
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.send("user is not exists with this id");
+    }
+    const isPasswordSame = await bcrypt.compare(password, user.password);
+    console.log(isPasswordSame);
+    const updateUserPassword = await User.updateOne(
+      { _id: userId },
+      { password: newPassword },
+      { new: true }
+    );
+    console.log(user);
+    res.send(updateUserPassword);
   } catch (error) {
     res.send(error.message);
   }

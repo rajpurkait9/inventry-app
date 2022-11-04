@@ -19,6 +19,7 @@ const register = async (req, res) => {
       createAt: Date(Date.now()).toString(),
     });
     res.status(201).json({
+      userId : newUser._id,
       name: newUser.name,
       email: newUser.email,
       createAt: newUser.createAt,
