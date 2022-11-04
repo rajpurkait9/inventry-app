@@ -34,12 +34,8 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const updateUser = await User.findByIdAndUpdate(
-      { id },
-      { name },
-      { new: true }
-    );
-    res.status(200).send("sucessfully updated user");
+    console.log(req.body);
+    res.send(req.body);
   } catch (error) {
     console.log(error.message);
   }
