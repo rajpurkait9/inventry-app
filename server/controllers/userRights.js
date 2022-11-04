@@ -58,14 +58,14 @@ const changePassword = async (req, res) => {
       return res.send("user is not exists with this id");
     }
     const isPasswordSame = await bcrypt.compare(password, user.password);
-    console.log(isPasswordSame);
-    const updateUserPassword = await User.updateOne(
-      { _id: userId },
-      { password: newPassword },
-      { new: true }
-    );
-    console.log(user);
-    res.send(updateUserPassword);
+    if (isPasswordSame) {
+        const updateUserPassword = await User.updateOne(
+          { _id: userId },
+          { password: newPassword },
+          { new: true }
+        );
+      return res.send("password change sucessfully");
+    }else res.send(" old password is wrong ...");
   } catch (error) {
     res.send(error.message);
   }
