@@ -23,6 +23,33 @@ const getUser = (req, res) => {
     console.log(error.message);
   }
 };
- 
-const 
-module.exports = { getAllUser ,getUser};
+const createUser = async (req, res) => {
+  try {
+    const newUser = await User.create(req.body);
+    res.status(200).send("sucessfully crreate a user ");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const updateUser = await User.findByIdAndUpdate(
+      { id },
+      { name },
+      { new: true }
+    );
+    res.status(200).send("sucessfully updated user");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+const deleteUser = (req,res)=>{
+    try {
+       const {id} = req.params;
+        res.status(200).send('user deleted sucessfully...');
+    } catch (error) {
+       console.log(error.message); 
+    }
+}
+module.exports = { getAllUser, getUser, createUser,updateUser };
