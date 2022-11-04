@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const router = require('./routes/user');
 const connetDB = require('./db/connect');
+const userRouter = require('./routes/userRight');
 const app = express();
 require('dotenv').config();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 
 // routes
 app.use('/api/v1/',router);
+app.use('/api/v1/user',userRouter);
 
 // start code of the server
 const start = async()=>{
